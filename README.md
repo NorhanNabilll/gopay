@@ -85,6 +85,9 @@ GoPay enables:
 
 
 ------------------------------------------------------------------------------------------------------
+## 4.Sequence Flow Diagrams:
+### User Interactions:
+
 ```mermaid
 sequenceDiagram
     autonumber
