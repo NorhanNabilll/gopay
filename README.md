@@ -189,19 +189,26 @@ sequenceDiagram
     User->>App: Send money to user
     App->>API: P2P transfer request (to, amount)
     activate API
-    API->>DB: Check sender balance
-    DB-->>API: Sufficient/insufficient
-    alt Sufficient balance
-        API->>DB: Debit sender, credit receiver
-        DB-->>API: Transfer committed
-        API->>Notify: Notify both users
-        Notify-->>User: P2P Sent Notification
-    else Insufficient
-        API-->>App: Insufficient funds
+    API->>DB: Verify receiver exists & wallet active
+    DB-->>API: Receiver valid / invalid
+    alt Receiver valid
+        API->>DB: Check sender balance
+        DB-->>API: Sufficient/insufficient
+        alt Sufficient balance
+            API->>DB: Debit sender, credit receiver
+            DB-->>API: Transfer committed
+            API->>Notify: Notify both users
+            Notify-->>User: P2P Sent Notification
+        else Insufficient
+            API-->>App: Insufficient funds
+        end
+    else Receiver invalid
+        API-->>App: Invalid recipient
     end
     deactivate API
     API-->>App: Transfer result
     App-->>User: Show transfer status
+
 ```
 ---
 
