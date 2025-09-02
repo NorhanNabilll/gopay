@@ -42,6 +42,39 @@ GoPay enables:
 # 3.🏗️ System Architecture  
 
 ### System Layers & Technologies
+```mermaid
+flowchart TD
+ subgraph subGraph0["Client Layer"]
+        MobileApp["Mobile App (Flutter)"]
+        AdminDashboard["Admin Dashboard (React)"]
+  end
+ subgraph subGraph1["Backend Layer"]
+        API["Backend API (Python + Django)"]
+        RabbitMQ["RabbitMQ + Celery (Background tasks)"]
+  end
+ subgraph subGraph2["Database Layer"]
+        DB["PostgreSQL"]
+  end
+ subgraph subGraph3["Integration Layer"]
+        BankAPI["Bank API Gateway"]
+        PaymentAPI["Payment & Recharge APIs"]
+        BillersAPI["Billers API"]
+  end
+ subgraph subGraph4["DevOps Layer"]
+        Docker["Docker (Containerization)"]
+        GitLab["GitLab (Version Control & CI/CD)"]
+  end
+    MobileApp -- Requests/Responses --> API
+    AdminDashboard -- Requests/Responses --> API
+    API -- Read/Write --> DB
+    API -- Background Tasks --> RabbitMQ
+    API -- Bank Requests --> BankAPI
+    API -- Payment/Recharge Requests --> PaymentAPI
+    API -- Bill Payments --> BillersAPI
+    Docker --> API
+    GitLab --> Docker & API
+
+```
 
 1. **Client Layer (Mobile/Web App)**
    - **Mobile App**: Flutter → iOS & Android
